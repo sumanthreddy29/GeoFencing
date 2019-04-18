@@ -39,6 +39,34 @@
         android:layout_marginStart="100dp"
         android:layout_marginEnd="100dp"
         android:text="Music" />
+    <CheckBox
+        android:id="@+id/sports"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginEnd="100dp"
+        android:text="Sports" />
+    <CheckBox
+        android:id="@+id/Film"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginEnd="100dp"
+        android:text="Film" />
+    <CheckBox
+        android:id="@+id/Books"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginEnd="100dp"
+        android:text="Books" />
+    <CheckBox
+        android:id="@+id/food"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginEnd="100dp"
+        android:text="Food" />
 
     <Button
         android:id="@+id/save"

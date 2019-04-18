@@ -4,26 +4,33 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.ArrayMap;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class activity_interest extends AppCompatActivity {
 
     // Access a Cloud Firestore instance from your Activity
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    CheckBox music,games,arts;
+    CheckBox music,games,arts,sports,films,food,books;
     Button save;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +40,35 @@ public class activity_interest extends AppCompatActivity {
         games=(CheckBox)findViewById(R.id.games);
         arts=(CheckBox)findViewById(R.id.arts);
         save=(Button)findViewById(R.id.save);
+        sports=(CheckBox)findViewById(R.id.sports);
+        films=(CheckBox)findViewById(R.id.Film);
+        food=(CheckBox)findViewById(R.id.food);
+        books=(CheckBox)findViewById(R.id.Books);
+        Intent intent = getIntent();
 
+        String user_name = intent.getStringExtra("email");
+        DocumentReference docRef = db.collection("users").document(user_name);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Object in= new Object();
+                        in=document.get("interests");
+
+
+                            Toast.makeText(getApplicationContext(),document.get("interests").toString() , Toast.LENGTH_LONG).show();
+
+
+                    } else {
+                        Log.d("message", "No such document");
+                    }
+                } else {
+                    Log.d("message", "get failed with ", task.getException());
+                }
+            }
+        });
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,7 +76,9 @@ public class activity_interest extends AppCompatActivity {
 
 
                 ArrayList<String> interests = new ArrayList<>();
+                Intent intent = getIntent();
 
+                String user_name = intent.getStringExtra("email");
 
                 if (music.isChecked()) {
                     interests.add(music.getText().toString());
@@ -51,15 +88,21 @@ public class activity_interest extends AppCompatActivity {
 
                 if (arts.isChecked())
                     interests.add(arts.getText().toString());
+                if (sports.isChecked())
+                    interests.add(sports.getText().toString());
+                if (films.isChecked())
+                    interests.add(films.getText().toString());
+                if (food.isChecked())
+                    interests.add(food.getText().toString());
+                if (books.isChecked())
+                    interests.add(books.getText().toString());
 
-                // Create a new user with a first and last name
+
                 Map<String, Object> user = new HashMap<>();
 
                 user.put("interests", interests);
 
-                Intent intent = getIntent();
 
-                 String user_name = intent.getStringExtra("email");
                 db.collection("users").document(user_name)
                         .set(user)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
