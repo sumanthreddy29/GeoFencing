@@ -22,6 +22,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +33,7 @@ public class activity_interest extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     CheckBox music,games,arts,sports,films,food,books;
     Button save;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,11 +56,48 @@ public class activity_interest extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        Object in= new Object();
-                        in=document.get("interests");
+
+                        String  response=document.get("interests").toString();
 
 
-                            Toast.makeText(getApplicationContext(),document.get("interests").toString() , Toast.LENGTH_LONG).show();
+                        response=response.substring(1,response.length()-1);
+                        String str[] = response.split(",");
+                        List<String> al = new ArrayList<String>();
+                        al = Arrays.asList(str);
+                        for(String s: al){
+                          String  interest=s.trim().toString();
+
+
+                            if(interest.equals("Music"))
+                            {
+                                music.setChecked(true);
+                            }
+                            if(interest.equals("Arts"))
+                            {
+                                arts.setChecked(true);
+                            }
+                            if(interest.equals("Games"))
+                            {
+                                games.setChecked(true);
+                            }
+                            if(interest.equals("Books"))
+                            {
+                                books.setChecked(true);
+                            }
+                            if(interest.equals("Sports"))
+                            {
+                                sports.setChecked(true);
+                            }
+                            if(interest.equals("Film"))
+                            {
+                                films.setChecked(true);
+                            }
+                            if(interest.equals("Food"))
+                            {
+                                food.setChecked(true);
+                            }
+                        }
+
 
 
                     } else {

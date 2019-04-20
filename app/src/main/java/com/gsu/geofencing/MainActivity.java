@@ -38,6 +38,11 @@ public class MainActivity extends AppCompatActivity
         if (user != null) {
 
              email = user.getEmail();
+             if(email.equals("admin@gmail.com"))
+             {
+                 Intent i = new Intent(MainActivity.this,AdminActivity.class);
+                 startActivity(i);
+             }
 
         }else {
             Intent intent = getIntent();
@@ -65,6 +70,8 @@ public class MainActivity extends AppCompatActivity
         getEvents.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this,MapActivity.class);
+                startActivity(i);
                 Toast.makeText(MainActivity.this, "need to add map activity", Toast.LENGTH_LONG).show();
             }
         });

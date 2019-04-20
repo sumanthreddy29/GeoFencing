@@ -16,6 +16,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -30,10 +31,18 @@ public class LoginActivity extends AppCompatActivity {
 
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
+        FirebaseUser user = auth.getCurrentUser();
 
         if (auth.getCurrentUser() != null) {
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-            finish();
+          String  email = user.getEmail();
+            if(email.equals("admin@gmail.com")) {
+                startActivity(new Intent(LoginActivity.this, AdminActivity.class));
+                finish();
+            }else
+            {
+                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                finish();
+            }
         }
 
         // set the view now

@@ -11,7 +11,8 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="com.example.permission.MAPS_RECEIVE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
 
     <application
         android:allowBackup="true"
@@ -20,7 +21,10 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PlacesVisited"></activity>
+        <activity android:name=".MapActivity"></activity>
+        <activity android:name=".AddEvents" />
+        <activity android:name=".AdminActivity" />
+        <activity android:name=".PlacesVisited" />
         <activity android:name=".Notification" />
         <activity android:name=".activity_interest" />
         <activity
@@ -47,7 +51,9 @@
             android:label="@string/title_activity_reset_password"
             android:theme="@style/AppTheme.NoActionBar" />
 
-
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyA6MCZdOr4bI-aK7nnfJCcjfep_7d0yoFE" />
     </application>
 
 </manifest>

@@ -13,7 +13,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text='select your interest categories' />
+        android:text='select your interest categories'
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textStyle="bold" />
 
     <CheckBox
         android:id="@+id/arts"
