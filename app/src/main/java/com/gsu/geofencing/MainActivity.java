@@ -1,6 +1,9 @@
 package com.gsu.geofencing;
 
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 
 import android.view.View;
@@ -23,9 +26,9 @@ import org.w3c.dom.Text;
 
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, LocationListener {
 
-
+    LocationManager locationManager;
     private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         String email;
+
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
 
@@ -47,7 +51,7 @@ public class MainActivity extends AppCompatActivity
         }else {
             Intent intent = getIntent();
              email = intent.getStringExtra("email");
-            Toast.makeText(MainActivity.this, email, Toast.LENGTH_LONG).show();
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -70,12 +74,52 @@ public class MainActivity extends AppCompatActivity
         getEvents.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                getLocation();
                 Intent i = new Intent(MainActivity.this,MapActivity.class);
                 startActivity(i);
-                Toast.makeText(MainActivity.this, "need to add map activity", Toast.LENGTH_LONG).show();
+
             }
         });
             }
+
+
+
+    void getLocation() {
+        try {
+            locationManager = (LocationManager) getSystemService(this.LOCATION_SERVICE);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5, this);
+
+
+        }
+        catch(SecurityException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+        Toast.makeText(MainActivity.this, "Current Location: " + location.getLatitude() + ", " + location.getLongitude(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+        Toast.makeText(MainActivity.this, "Please Enable GPS and Internet", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+
+
+    }
+
+
 
     @Override
     public void onBackPressed() {
