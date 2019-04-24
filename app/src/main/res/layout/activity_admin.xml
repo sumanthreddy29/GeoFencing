@@ -15,17 +15,7 @@
         android:layout_height="wrap_content"
         android:text="Add Events" />
 
-    <Button
-        android:id="@+id/View"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="View Events" />
 
-    <Button
-        android:id="@+id/delete"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Delete Events" />
     <Button
         android:id="@+id/logout"
         android:layout_width="match_parent"

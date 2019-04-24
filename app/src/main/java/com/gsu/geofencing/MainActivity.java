@@ -175,12 +175,7 @@ public class MainActivity extends AppCompatActivity
             //i.putExtra("email",email);
             startActivity(i);
 
-        } else if (id == R.id.nav_places) {
-            Intent i = new Intent(MainActivity.this,PlacesVisited.class);
-            //i.putExtra("email",email);
-            startActivity(i);
-
-        } else if (id == R.id.logout) {
+        }  else if (id == R.id.logout) {
             mAuth = FirebaseAuth.getInstance();
                // Toast.makeText(MainActivity.this,"clicked" , Toast.LENGTH_LONG).show();
                 mAuth.signOut();

@@ -204,12 +204,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
 
         Circle circle = googleMap.addCircle(new CircleOptions()
-                .center(new LatLng(33.822717600000004, -84.37170139999999))
+                .center(new LatLng(33.7563531, -84.3891264))
                 .radius(3000)
                 .strokeColor(Color.BLUE)
                 );
 
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(33.822717600000004, -84.37170139999999), 10));
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(33.7563531, -84.3891264), 10));
 
 
     }
@@ -232,7 +232,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         Toast.makeText(this, "Location permission not granted, " +
                         "showing default location",
                 Toast.LENGTH_SHORT).show();
-        LatLng redmond = new LatLng(33.822717600000004, -84.37170139999999);
+        LatLng redmond = new LatLng(33.7563531, -84.3891264);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(redmond));
     }
 
