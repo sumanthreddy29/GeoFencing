@@ -11,10 +11,7 @@
             android:id="@+id/nav_notification"
             android:icon="@drawable/notification"
             android:title="ShowNotifications" />
-        <item
-            android:id="@+id/nav_places"
-            android:icon="@drawable/places"
-            android:title="PlacesVisited" />
+
         <item
             android:id="@+id/logout"
             android:icon="@drawable/logout"
