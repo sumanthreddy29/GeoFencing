@@ -24,7 +24,6 @@
         <activity android:name=".MapActivity" />
         <activity android:name=".AddEvents" />
         <activity android:name=".AdminActivity" />
-        <activity android:name=".PlacesVisited" />
         <activity android:name=".Notification" />
         <activity android:name=".activity_interest" />
         <activity
