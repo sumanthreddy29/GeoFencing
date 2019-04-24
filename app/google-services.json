@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "32512459652-kpkebpg92jl0jvirng2gqmhgk2mh5cml.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gsu.geofencing",
+            "certificate_hash": "f3fa19a33945e8e4bc0a8dd79a07097735dfce16"
+          }
+        },
+        {
           "client_id": "32512459652-1s6e7ld09hpt284sfnnk041lmficlki1.apps.googleusercontent.com",
           "client_type": 3
         }
