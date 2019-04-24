@@ -21,6 +21,7 @@ public class Notification  extends AppCompatActivity {
         FirebaseMessaging.getInstance().subscribeToTopic("Film");
         FirebaseMessaging.getInstance().subscribeToTopic("Food");
         FirebaseMessaging.getInstance().subscribeToTopic("Books");
+        FirebaseMessaging.getInstance().subscribeToTopic("Test");
 
     }
 }
