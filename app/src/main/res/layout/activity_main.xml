@@ -7,6 +7,35 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="geofencing.MainActivity">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <Spinner
+                android:id="@+id/spinnerTopics"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:entries="@array/Interests" />
+
+            <Button
+                android:id="@+id/buttonSubscribe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Subscribe" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
 
     <include
         layout="@layout/app_bar_main"
