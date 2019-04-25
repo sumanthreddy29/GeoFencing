@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "32512459652-dkn8gjsrk4b2v409s11ggogjgca8kcm7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gsu.geofencing",
+            "certificate_hash": "b11690525382b2e2bbe0f67b453179d4099b4d59"
+          }
+        },
+        {
           "client_id": "32512459652-1s6e7ld09hpt284sfnnk041lmficlki1.apps.googleusercontent.com",
           "client_type": 3
         }

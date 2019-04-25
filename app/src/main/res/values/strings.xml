@@ -47,10 +47,7 @@
         Website: %5$s
     ]]>
     </string>
-    <array name="Interests">
-        <item>notifications</item>
-        <item>promotional_messages</item>
-    </array>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

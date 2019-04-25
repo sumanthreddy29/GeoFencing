@@ -12,6 +12,7 @@
     <uses-permission android:name="com.example.permission.MAPS_RECEIVE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <application
         android:allowBackup="true"
@@ -20,11 +21,10 @@
         android:roundIcon="@drawable/home"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ViewEvents"></activity>
         <activity android:name=".MapActivity" />
         <activity android:name=".AddEvents" />
         <activity android:name=".AdminActivity" />
-        <activity android:name=".Notification" />
+        <activity android:name=".Notification"/>
         <activity android:name=".activity_interest" />
         <activity
             android:name=".MainActivity"
@@ -53,6 +53,8 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyA6MCZdOr4bI-aK7nnfJCcjfep_7d0yoFE" />
+
+
     </application>
 
 </manifest>

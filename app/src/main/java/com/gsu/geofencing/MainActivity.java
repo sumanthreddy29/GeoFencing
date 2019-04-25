@@ -51,56 +51,17 @@ public class MainActivity extends AppCompatActivity
     Spinner spinner;
     LocationManager locationManager;
     private FirebaseAuth mAuth;
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            NotificationManager mNotificationManager =
-                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            int importance = NotificationManager.IMPORTANCE_HIGH;
-            NotificationChannel mChannel = new NotificationChannel(Constants.CHANNEL_ID, Constants.CHANNEL_NAME, importance);
-            mChannel.setDescription(Constants.CHANNEL_DESCRIPTION);
-            mChannel.enableLights(true);
-            mChannel.setLightColor(Color.RED);
-            mChannel.enableVibration(true);
-            mChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
-            mNotificationManager.createNotificationChannel(mChannel);
-
-            MyNotificationManager.getInstance(this).displayNotification("Event Nearby", "Event based on your interest");
-
-        }
-
-        spinner = findViewById(R.id.spinnerTopics);
-
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            NotificationManager mNotificationManager =
-                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            int importance = NotificationManager.IMPORTANCE_HIGH;
-            NotificationChannel mChannel = new NotificationChannel(Constants.CHANNEL_ID, Constants.CHANNEL_NAME, importance);
-            mChannel.setDescription(Constants.CHANNEL_DESCRIPTION);
-            mChannel.enableLights(true);
-            mChannel.setLightColor(Color.RED);
-            mChannel.enableVibration(true);
-            mChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
-            mNotificationManager.createNotificationChannel(mChannel);
-        }
-
-        findViewById(R.id.buttonSubscribe).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                String topic = spinner.getSelectedItem().toString();
-                FirebaseMessaging.getInstance().subscribeToTopic(topic);
-                Toast.makeText(getApplicationContext(), "Interest Subscribed", Toast.LENGTH_LONG).show();
-            }
-        });
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         String email;
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
         if (user != null) {
 
              email = user.getEmail();
@@ -227,7 +188,7 @@ public class MainActivity extends AppCompatActivity
         navHeaderView= navigationView.getHeaderView(0);
         email_id= (TextView) navHeaderView.findViewById(R.id.email_id);
 
-        Toast.makeText(MainActivity.this, email_id.getText().toString() , Toast.LENGTH_LONG).show();
+
         if (id == R.id.nav_interest) {
             // Handle the camera action
             Intent i = new Intent(MainActivity.this,activity_interest.class);
@@ -235,7 +196,7 @@ public class MainActivity extends AppCompatActivity
             startActivity(i);
         } else if (id == R.id.nav_notification) {
             Intent i = new Intent(MainActivity.this,Notification.class);
-            //i.putExtra("email",email);
+            i.putExtra("email",email_id.getText().toString());
             startActivity(i);
 
         }  else if (id == R.id.logout) {

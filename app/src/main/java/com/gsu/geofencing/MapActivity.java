@@ -1,6 +1,8 @@
 package com.gsu.geofencing;
 
 import android.Manifest;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -56,8 +58,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     GoogleMap mMap;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    protected LocationManager locationManager;
-    protected LocationListener locationListener;
+    Context mcontext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,7 +128,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                                         "Eventdate:"+document.get("eventdate").toString()+"\n"+
                                         "EventTime:"+document.get("eventStartTime").toString()+"-"+document.get("eventEndTime").toString()+"\n";
 
-                                if(!isMarkerOutsideCircle(new LatLng(33.822717600000004, -84.37170139999999),new LatLng(Double.parseDouble(document.get("latitude").toString()), Double.parseDouble(document.get("longitude").toString())),1000))
+                                if(!isMarkerOutsideCircle(new LatLng(33.7563531, -84.3891264),new LatLng(Double.parseDouble(document.get("latitude").toString()), Double.parseDouble(document.get("longitude").toString())),1000))
                                 {
 
                                 googleMap.addMarker(new MarkerOptions()

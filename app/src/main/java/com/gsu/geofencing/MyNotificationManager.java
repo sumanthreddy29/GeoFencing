@@ -6,6 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 
+import java.util.Date;
+import java.util.Random;
+
 import static android.content.Context.NOTIFICATION_SERVICE;
 
 public class MyNotificationManager {
@@ -27,11 +30,12 @@ public class MyNotificationManager {
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(mCtx, Constants.CHANNEL_ID)
+                        .setSmallIcon(R.drawable.icon)
                         .setContentTitle(title)
                         .setContentText(body);
 
 
-        Intent resultIntent = new Intent(mCtx, MainActivity.class);
+        Intent resultIntent = new Intent(mCtx, MapActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(mCtx, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         mBuilder.setContentIntent(pendingIntent);
@@ -39,10 +43,12 @@ public class MyNotificationManager {
         NotificationManager mNotifyMgr =
                 (NotificationManager) mCtx.getSystemService(NOTIFICATION_SERVICE);
 
+        Random random = new Random();
+        int m = random.nextInt(9999 - 1000) + 1000;
+        m = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
 
-        if (mNotifyMgr != null) {
-            mNotifyMgr.notify(1, mBuilder.build());
-        }
+            mNotifyMgr.notify(m, mBuilder.build());
+
     }
 
 

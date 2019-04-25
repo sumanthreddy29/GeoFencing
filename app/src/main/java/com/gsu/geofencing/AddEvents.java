@@ -1,10 +1,13 @@
 package com.gsu.geofencing;
 
 import android.app.DatePickerDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
@@ -62,7 +65,18 @@ public class AddEvents extends AppCompatActivity implements   View.OnClickListen
         save.setOnClickListener(this);
         address=(EditText)findViewById(R.id.address);
 
-
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationManager mNotificationManager =
+                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel mChannel = new NotificationChannel(Constants.CHANNEL_ID, Constants.CHANNEL_NAME, importance);
+            mChannel.setDescription(Constants.CHANNEL_DESCRIPTION);
+            mChannel.enableLights(true);
+            mChannel.setLightColor(Color.RED);
+            mChannel.enableVibration(true);
+            mChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+            mNotificationManager.createNotificationChannel(mChannel);
+        }
 
 
 
@@ -183,7 +197,8 @@ public class AddEvents extends AppCompatActivity implements   View.OnClickListen
             event.put("eventEndTime",eventEndTime);
             event.put("latitude",latitude.toString());
             event.put("longitude",longitude.toString());
-           // Map<String, Object> events = new HashMap<>();
+            event.put("Address",eventAddress);
+
 
 
             db.collection("events").document(eventName)
@@ -192,7 +207,7 @@ public class AddEvents extends AppCompatActivity implements   View.OnClickListen
                         @Override
                         public void onSuccess(Void aVoid) {
 
-                            Toast.makeText(getApplicationContext(), "Data Saved", Toast.LENGTH_LONG).show();//display the text of button1
+                            Toast.makeText(getApplicationContext(), "Event Added", Toast.LENGTH_LONG).show();//display the text of button1
                             Intent i = new Intent(AddEvents.this, AdminActivity.class);
                             startActivity(i);
                         }
@@ -204,8 +219,15 @@ public class AddEvents extends AppCompatActivity implements   View.OnClickListen
                         }
                     });
 
-
+            passEvent(event);
         }
+
+    }
+    public void passEvent(Map<String, String> x)
+    {
+        Log.e("interest",x.toString());
+
+        MyNotificationManager.getInstance(this).displayNotification("Event:"+x.get("eventName"), "Category"+x.get("eventCategory"));
 
     }
 

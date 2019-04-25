@@ -1,6 +1,10 @@
 package com.gsu.geofencing;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,6 +23,7 @@ import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -121,20 +126,33 @@ public class activity_interest extends AppCompatActivity {
 
                 if (music.isChecked()) {
                     interests.add(music.getText().toString());
+
                 }
-                if (games.isChecked())
+                if (games.isChecked()) {
                     interests.add(games.getText().toString());
 
-                if (arts.isChecked())
+                }
+
+                if (arts.isChecked()) {
                     interests.add(arts.getText().toString());
-                if (sports.isChecked())
+
+                }
+                if (sports.isChecked()) {
                     interests.add(sports.getText().toString());
-                if (films.isChecked())
+
+                }
+                if (films.isChecked()) {
                     interests.add(films.getText().toString());
-                if (food.isChecked())
+
+                }
+                if (food.isChecked()) {
                     interests.add(food.getText().toString());
-                if (books.isChecked())
+
+                }
+                if (books.isChecked()) {
                     interests.add(books.getText().toString());
+
+                }
 
 
                 Map<String, Object> user = new HashMap<>();
@@ -159,6 +177,11 @@ public class activity_interest extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), "data not saved", Toast.LENGTH_LONG).show();
                             }
                         });
+
+
+
+
+
 
 
             }
