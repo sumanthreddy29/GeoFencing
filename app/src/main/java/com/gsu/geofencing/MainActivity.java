@@ -47,7 +47,7 @@ import org.w3c.dom.Text;
 
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, LocationListener {
+        implements NavigationView.OnNavigationItemSelectedListener {
     Spinner spinner;
     LocationManager locationManager;
     private FirebaseAuth mAuth;
@@ -98,7 +98,6 @@ public class MainActivity extends AppCompatActivity
         getEvents.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getLocation();
                 Intent i = new Intent(MainActivity.this,MapActivity.class);
                 startActivity(i);
 
@@ -108,40 +107,7 @@ public class MainActivity extends AppCompatActivity
 
 
 
-    void getLocation() {
-        try {
-            locationManager = (LocationManager) getSystemService(this.LOCATION_SERVICE);
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5, this);
 
-
-        }
-        catch(SecurityException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-
-        Toast.makeText(MainActivity.this, "Current Location: " + location.getLatitude() + ", " + location.getLongitude(), Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-        Toast.makeText(MainActivity.this, "Please Enable GPS and Internet", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-
-
-
-    }
 
 
 

@@ -123,7 +123,7 @@ public class AddEvents extends AppCompatActivity implements   View.OnClickListen
                         public void onDateSet(DatePicker view, int year,
                                               int monthOfYear, int dayOfMonth) {
 
-                            txtDate.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+                            txtDate.setText((monthOfYear + 1)+"-"+dayOfMonth + "-" + year);
 
                         }
                     }, mYear, mMonth, mDay);

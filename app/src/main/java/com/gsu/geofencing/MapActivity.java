@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,6 +12,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -25,12 +27,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationListener;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -51,11 +54,17 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, LocationListener {
 
     SupportMapFragment mapFragment;
+    EditText radius;
+    Button submit;
+    LocationManager locationManager;
+    Double latitude,longitude;
+
 
     GoogleMap mMap;
+    Circle circle;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     Context mcontext;
@@ -64,12 +73,65 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_main);
+        radius=(EditText)findViewById(R.id.radius);
+        submit=(Button)findViewById(R.id.button2);
+
+        getLocation();
 
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String radiusValue=radius.getText().toString();
+               setMap(radiusValue);
+
+
+            }
+        });
+
     }
+
+    void getLocation() {
+        try {
+            locationManager = (LocationManager) getSystemService(this.LOCATION_SERVICE);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 5, this);
+
+
+        }
+        catch(SecurityException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+        Toast.makeText(MapActivity.this, "Current Location: " + location.getLatitude() + ", " + location.getLongitude(), Toast.LENGTH_SHORT).show();
+        latitude=location.getLatitude();
+        longitude=location.getLongitude();
+        System.out.println("lat="+latitude+"long:"+longitude);
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+        Toast.makeText(MapActivity.this, "Please Enable GPS and Internet", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+
+
+    }
+
 
 
 
@@ -83,8 +145,24 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
 
+    public void setMap(String radius) {
 
 
+        if(circle!=null){
+            circle.remove();
+            mMap.clear();
+        }
+        CircleOptions circleOptions = new CircleOptions()
+                .center( new LatLng(33.7563531, -84.3891264) )
+                .radius( Double.parseDouble(radius) )
+                .strokeColor(Color.BLUE)
+                .strokeWidth(5);
+
+// Get back the mutable Circle
+         circle = mMap.addCircle(circleOptions);
+         getData(mMap,Double.parseDouble(radius));
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -110,7 +188,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
 
 
-    public  GoogleMap getData(final GoogleMap googleMap)
+    public  GoogleMap getData(final GoogleMap googleMap, final double radius)
     {
 
         db.collection("events")
@@ -128,7 +206,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                                         "Eventdate:"+document.get("eventdate").toString()+"\n"+
                                         "EventTime:"+document.get("eventStartTime").toString()+"-"+document.get("eventEndTime").toString()+"\n";
 
-                                if(!isMarkerOutsideCircle(new LatLng(33.7563531, -84.3891264),new LatLng(Double.parseDouble(document.get("latitude").toString()), Double.parseDouble(document.get("longitude").toString())),1000))
+                                if(!isMarkerOutsideCircle(new LatLng(33.7563531, -84.3891264),new LatLng(Double.parseDouble(document.get("latitude").toString()), Double.parseDouble(document.get("longitude").toString())),radius))
                                 {
 
                                 googleMap.addMarker(new MarkerOptions()
@@ -167,7 +245,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mMap.setMinZoomPreference(10);
 
 
-       getData(googleMap);
+       getData(googleMap,2000);
         mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
 
             @Override
@@ -204,10 +282,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
 
 
-        Circle circle = googleMap.addCircle(new CircleOptions()
+         circle = googleMap.addCircle(new CircleOptions()
                 .center(new LatLng(33.7563531, -84.3891264))
                 .radius(3000)
                 .strokeColor(Color.BLUE)
+                 .strokeWidth(5)
                 );
 
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(33.7563531, -84.3891264), 10));
