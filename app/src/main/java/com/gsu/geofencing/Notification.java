@@ -30,6 +30,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 public class Notification  extends AppCompatActivity {
 
@@ -131,7 +132,7 @@ public class Notification  extends AppCompatActivity {
 
     public void passEvent(String event,String details)
     {
-        Intent i = getIntent();
+
 
         Log.e("interest",event);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -147,8 +148,11 @@ public class Notification  extends AppCompatActivity {
             mNotificationManager.createNotificationChannel(mChannel);
         }
 
+        Random random = new Random();
+        int m = random.nextInt(9999 - 1000) + 1000;
+        m = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
 
-        MyNotificationManager.getInstance(this).displayNotification("Event: "+event, "Details: "+details);
+        MyNotificationManager.getInstance(this).displayNotification("Event: "+event, "Details: "+details,m);
 
     }
 

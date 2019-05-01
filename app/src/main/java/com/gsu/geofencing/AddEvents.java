@@ -65,18 +65,7 @@ public class AddEvents extends AppCompatActivity implements   View.OnClickListen
         save.setOnClickListener(this);
         address=(EditText)findViewById(R.id.address);
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            NotificationManager mNotificationManager =
-                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            int importance = NotificationManager.IMPORTANCE_HIGH;
-            NotificationChannel mChannel = new NotificationChannel(Constants.CHANNEL_ID, Constants.CHANNEL_NAME, importance);
-            mChannel.setDescription(Constants.CHANNEL_DESCRIPTION);
-            mChannel.enableLights(true);
-            mChannel.setLightColor(Color.RED);
-            mChannel.enableVibration(true);
-            mChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
-            mNotificationManager.createNotificationChannel(mChannel);
-        }
+
 
 
 
@@ -219,15 +208,8 @@ public class AddEvents extends AppCompatActivity implements   View.OnClickListen
                         }
                     });
 
-            passEvent(event);
+
         }
-
-    }
-    public void passEvent(Map<String, String> x)
-    {
-        Log.e("interest",x.toString());
-
-        MyNotificationManager.getInstance(this).displayNotification("Event:"+x.get("eventName"), "Category"+x.get("eventCategory"));
 
     }
 

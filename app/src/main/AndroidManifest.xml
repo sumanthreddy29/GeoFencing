@@ -50,7 +50,6 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyA6MCZdOr4bI-aK7nnfJCcjfep_7d0yoFE" />
 
-
     </application>
 
 </manifest>

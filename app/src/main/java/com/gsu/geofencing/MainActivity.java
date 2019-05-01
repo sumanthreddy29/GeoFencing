@@ -4,6 +4,7 @@ package com.gsu.geofencing;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.graphics.Color;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.content.Intent;
 import android.content.Context;
@@ -22,10 +23,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -40,10 +44,21 @@ import android.view.View;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
 
 
 public class MainActivity extends AppCompatActivity
@@ -51,7 +66,10 @@ public class MainActivity extends AppCompatActivity
     Spinner spinner;
     LocationManager locationManager;
     private FirebaseAuth mAuth;
+    int m;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    Random random = new Random();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +78,10 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         String email;
-
+        showNotifications();
+         m = random.nextInt(9999 - 1000) + 1000;
+        m = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
+        System.out.println(m);
 
         if (user != null) {
 
@@ -105,11 +126,102 @@ public class MainActivity extends AppCompatActivity
         });
             }
 
+    private void showNotifications() {
+
+
+       String   email = user.getEmail();
+
+
+        DocumentReference docRef = db.collection("users").document(email);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+
+                        String response = document.get("interests").toString();
+
+
+                        response = response.substring(1, response.length() - 1);
+                        String str[] = response.split(",");
+                        List<String> al = new ArrayList<String>();
+                        al = Arrays.asList(str);
+
+                        for (String s : al) {
+                            String interest = s.trim().toString();
+                            getEvents(interest,m);
+                            m+=1;
+
+                        }
+
+                    }
+                }
+            }
+        });
+
+
+
+    }
+
+    public void getEvents(final String interest, final int m)
+    {
+        db.collection("events")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+
+
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                //  Log.d("events", document.getId() + " => " + document.getData());
+
+                                String eventDetails= "Eventdate:"+document.get("eventdate").toString()+
+                                        "EventTime:"+document.get("eventStartTime").toString()+"-"+document.get("eventEndTime").toString()+"";
+                                if(document.get("eventCategory").toString().equals(interest))
+                                {
+                                    passEvent(interest,eventDetails,m);
+
+                                }
+
+
+
+                            }
 
 
 
 
 
+                        }
+                    }
+                });
+
+    }
+
+    public void passEvent(String event,String details,int m)
+    {
+
+
+        Log.e("interest",event);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationManager mNotificationManager =
+                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel mChannel = new NotificationChannel(Constants.CHANNEL_ID, Constants.CHANNEL_NAME, importance);
+            mChannel.setDescription(Constants.CHANNEL_DESCRIPTION);
+            mChannel.enableLights(true);
+            mChannel.setLightColor(Color.RED);
+            mChannel.enableVibration(true);
+            mChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+            mNotificationManager.createNotificationChannel(mChannel);
+        }
+
+    System.out.println("test"+m);
+
+        MyNotificationManager.getInstance(this).displayNotification("Event: "+event, "Details: "+details,m);
+
+    }
 
     @Override
     public void onBackPressed() {

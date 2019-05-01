@@ -26,7 +26,7 @@ public class MyNotificationManager {
         return mInstance;
     }
 
-    public void displayNotification(String title, String body) {
+    public void displayNotification(String title, String body,int m) {
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(mCtx, Constants.CHANNEL_ID)
@@ -43,9 +43,6 @@ public class MyNotificationManager {
         NotificationManager mNotifyMgr =
                 (NotificationManager) mCtx.getSystemService(NOTIFICATION_SERVICE);
 
-        Random random = new Random();
-        int m = random.nextInt(9999 - 1000) + 1000;
-        m = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
 
             mNotifyMgr.notify(m, mBuilder.build());
 

@@ -20,7 +20,7 @@
             android:id="@+id/radius"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="600dp"
+            android:layout_marginTop="550dp"
             android:ems="10"
             android:inputType="textPersonName"
             android:hint="Radius" />
@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginTop="600dp"
+            android:layout_marginTop="550dp"
             android:text="save" />
     </LinearLayout>
 

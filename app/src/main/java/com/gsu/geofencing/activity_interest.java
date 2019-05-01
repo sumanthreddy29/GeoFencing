@@ -1,8 +1,6 @@
 package com.gsu.geofencing;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.content.Context;
+
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
@@ -14,16 +12,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.messaging.FirebaseMessaging;
+
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -76,6 +72,7 @@ public class activity_interest extends AppCompatActivity {
                             if(interest.equals("Music"))
                             {
                                 music.setChecked(true);
+
                             }
                             if(interest.equals("Arts"))
                             {
@@ -186,5 +183,11 @@ public class activity_interest extends AppCompatActivity {
 
             }
         });
+
+
+
+
     }
+
+
 }
