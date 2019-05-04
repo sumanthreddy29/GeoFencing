@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity
     Spinner spinner;
     LocationManager locationManager;
     private FirebaseAuth mAuth;
-    int m;
+    public int m;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     Random random = new Random();
@@ -78,10 +78,11 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         String email;
-        showNotifications();
+
          m = random.nextInt(9999 - 1000) + 1000;
         m = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
         System.out.println(m);
+        showNotifications();
 
         if (user != null) {
 
@@ -150,7 +151,7 @@ public class MainActivity extends AppCompatActivity
 
                         for (String s : al) {
                             String interest = s.trim().toString();
-                            getEvents(interest,m);
+                            getEvents(interest);
                             m+=1;
 
                         }
@@ -164,7 +165,7 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    public void getEvents(final String interest, final int m)
+    public void getEvents(final String interest)
     {
         db.collection("events")
                 .get()
@@ -181,7 +182,8 @@ public class MainActivity extends AppCompatActivity
                                         "EventTime:"+document.get("eventStartTime").toString()+"-"+document.get("eventEndTime").toString()+"";
                                 if(document.get("eventCategory").toString().equals(interest))
                                 {
-                                    passEvent(interest,eventDetails,m);
+                                    passEvent(document.getId(),eventDetails,m);
+                                    m+=1;
 
                                 }
 

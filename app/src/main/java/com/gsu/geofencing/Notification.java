@@ -38,6 +38,9 @@ public class Notification  extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private ListView mListView;
     private List<String> eventList = new ArrayList<>();
+    int m;
+    String user_name;
+    Random random = new Random();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,21 +48,25 @@ public class Notification  extends AppCompatActivity {
         mListView = (ListView) findViewById(R.id.list_view);
         Intent intent = getIntent();
 
+
         mListView.setClickable(true);
+         user_name = intent.getStringExtra("email");
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 
                 Object o = mListView.getItemAtPosition(position);
-                Intent i = new Intent(Notification.this,MapActivity.class);
+                Intent i = new Intent(Notification.this, MapActivity.class);
 
                 startActivity(i);
             }
         });
 
 
-        final String user_name = intent.getStringExtra("email");
+
+
+
 
         DocumentReference docRef = db.collection("users").document(user_name);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -79,6 +86,7 @@ public class Notification  extends AppCompatActivity {
                         for (String s : al) {
                             String interest = s.trim().toString();
                             getEvents(interest);
+
 
                         }
 
@@ -135,24 +143,7 @@ public class Notification  extends AppCompatActivity {
 
 
         Log.e("interest",event);
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            NotificationManager mNotificationManager =
-                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            int importance = NotificationManager.IMPORTANCE_HIGH;
-            NotificationChannel mChannel = new NotificationChannel(Constants.CHANNEL_ID, Constants.CHANNEL_NAME, importance);
-            mChannel.setDescription(Constants.CHANNEL_DESCRIPTION);
-            mChannel.enableLights(true);
-            mChannel.setLightColor(Color.RED);
-            mChannel.enableVibration(true);
-            mChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
-            mNotificationManager.createNotificationChannel(mChannel);
-        }
 
-        Random random = new Random();
-        int m = random.nextInt(9999 - 1000) + 1000;
-        m = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
-
-        MyNotificationManager.getInstance(this).displayNotification("Event: "+event, "Details: "+details,m);
 
     }
 

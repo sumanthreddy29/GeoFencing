@@ -97,7 +97,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     void getLocation() {
         try {
             locationManager = (LocationManager) getSystemService(this.LOCATION_SERVICE);
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 5, this);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 5, this);
 
 
         }
@@ -202,9 +202,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d("events", document.getId() + " => " + document.getData());
 
-                                String eventDetails= "EventCategory:"+document.get("eventCategory").toString()+"\n"+
-                                        "Eventdate:"+document.get("eventdate").toString()+"\n"+
-                                        "EventTime:"+document.get("eventStartTime").toString()+"-"+document.get("eventEndTime").toString()+"\n";
+                                String eventDetails= "Category:"+document.get("eventCategory").toString()+"\n"+"Address:"+document.get("Address").toString()+"\n"+
+                                        "Date:"+document.get("eventdate").toString()+"\n"+
+                                        "Time:"+document.get("eventStartTime").toString()+"-"+document.get("eventEndTime").toString()+"\n";
 
                                 if(!isMarkerOutsideCircle(new LatLng(33.7563531, -84.3891264),new LatLng(Double.parseDouble(document.get("latitude").toString()), Double.parseDouble(document.get("longitude").toString())),radius))
                                 {
